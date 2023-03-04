@@ -1,0 +1,40 @@
+body{
+  background-color: #060b25;
+  overflow: hidden;
+  margin: 0;
+}
+
+.img {
+  background: url('./main.JPG'); 
+  height: 1028px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.txt {
+  position: absolute;
+  top: 0;
+  color: white;
+  text-align: center;
+  width: 100%;
+  font-family: ggSalasFont;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@font-face {
+  font-family: "ggSalasFontBold";
+  src: url("./fonts/upheavtt.ttf") format("truetype"),
+  url("./fonts/upheavtt.woff") format('woff')
+ }
+
+ @font-face {
+  font-family: "ggSalasFont";
+  src: url("./fonts/Retro\ Gaming.ttf") format("truetype"),
+  url("./fonts/Retro-Gaming.woff") format('woff')
+ }
