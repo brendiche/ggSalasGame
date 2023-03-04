@@ -1,11 +1,14 @@
 import './assets/main.css';
+import './assets/maps/maps.css';
+import { Level } from './level';
 
-// const img = document.createElement('div');
-// img.className = 'img'
-// const txt = document.createElement('h1');
-// txt.innerText = 'Game in Progress';
-// txt.className = 'txt';
+/**
+ * This will going in a senario class
+ */
+const firstLevel = new Level()
+firstLevel.map('room');
+/**
+ * 
+ */
 
-
-// document.body.appendChild(img);
-// document.body.appendChild(txt);
+document.body.appendChild(firstLevel.getElement());
