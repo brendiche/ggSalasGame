@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "npm run test",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "build": "webpack --env production"
   },
   "repository": {
     "type": "git",
