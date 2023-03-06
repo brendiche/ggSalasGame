@@ -1,19 +1,19 @@
+import { Screen } from "../screen";
+import { box } from "../types";
+
 const MAP_CONTAINER_CLASS = 'map-container';
 
 export interface MapConfig {
-  box: {
-    width:number,
-      height: number,
-      top: number,
-      left: number,
-  }
+  box: box;
 }
 
-export class Level{
+export class Level {
   private _map: string;
+  private readonly screen: Screen;
   private mapConfig: MapConfig;
 
-  constructor(mapName: string, config: MapConfig){
+  constructor(mapName: string, config: MapConfig, screen: Screen){
+    this.screen = screen;
     this._map = mapName;
     this.mapConfig = config;
   }
@@ -35,14 +35,14 @@ export class Level{
     test.style.opacity = '50%';
     test.style.width = `${this.mapConfig.box.width}px`;
     test.style.height = `${this.mapConfig.box.height}px`;
-    test.style.top = `${this.mapConfig.box.top}px`;
-    test.style.left = `${this.mapConfig.box.left}px`;
+    test.style.top = `${this.mapConfig.box.top(this.screen.getSize().heightScreen)}px`;
+    test.style.left = `${this.mapConfig.box.left(this.screen.getSize().widthScreen)}px`;
 
-    // screen.onResize(() => {
-    //   const rzEl = document.getElementById('test');
-    //   rzEl.style.top = `${Math.trunc(getHeight(screen.getSize().heightScreen))}px`;
-    //   test.style.left = `${Math.trunc(getWidth(screen.getSize().widthScreen))}px`;
-    // })
+    this.screen.onResize(() => {
+      const rzEl = document.getElementById('test');
+      rzEl.style.top = `${Math.trunc(this.mapConfig.box.top(this.screen.getSize().heightScreen))}px`;
+      test.style.left = `${Math.trunc(this.mapConfig.box.left(this.screen.getSize().widthScreen))}px`;
+    })
 
 
     document.body.append(test);
