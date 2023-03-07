@@ -1,10 +1,12 @@
+import { getRandomColor } from "../helper";
 import { Screen } from "../screen";
-import { box } from "../types";
+import { box, boxItems } from "../types";
 
 const MAP_CONTAINER_CLASS = 'map-container';
 
 export interface MapConfig {
   box: box;
+  items: boxItems[],
 }
 
 export class Level {
@@ -46,5 +48,25 @@ export class Level {
 
 
     document.body.append(test);
+
+    if(new URLSearchParams(window.location.search).get('debug')){
+      const top = Math.trunc(this.mapConfig.box.top(this.screen.getSize().heightScreen))
+      const left = Math.trunc(this.mapConfig.box.left(this.screen.getSize().widthScreen))
+  
+      this.mapConfig.items.forEach((item, i) => {
+        const test = document.createElement('div');
+        test.id=`test${2+i}`
+        test.style.backgroundColor = getRandomColor();
+        test.style.position = 'absolute';
+        test.style.opacity = '80%';
+        test.style.width = `${item.width}px`;
+        test.style.height = `${item.height}px`;
+        test.style.top = `${item.top+top}px`;
+        test.style.left = `${item.left+left}px`;
+        
+        document.body.appendChild(test);
+  
+      })
+    }
   }
 }
