@@ -45,6 +45,11 @@ export const itemsConfigParams: boxItems[] = [
     top: 161,
     left: 417
   },{
+    height: 65,
+    width: 32,
+    top: 287,
+    left: 320
+  },{
     height: 53,
     width: 94,
     top: 43,
