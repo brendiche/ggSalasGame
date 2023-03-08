@@ -1,18 +1,24 @@
 import '../assets/characters/character.css'
+import { Engine } from '../core/engine';
 
 type Direction = 'top' | 'down' | 'right' | 'left' | 'stand'
-
+const SPEED = 3;
 export class Character {
 
   private name: string;
   private character: HTMLElement;
   private direction: Direction;
 
-  constructor(name: string){
+  constructor(name: string, engine: Engine, top: number, left: number){
     this.name = name;
     this.character = document.createElement('div');
     this.character.className = `${name}-stand`;
+    this.character.style.top = `${top+244}px`;
+    this.character.style.left = `${left}px`;
     this.addEventListeners();
+    engine.addGamingThread(() => {
+      this.move(this.direction);
+    })
   }
 
   getCharacter(): HTMLElement{
@@ -42,7 +48,7 @@ export class Character {
       }
     });
     window.addEventListener('keyup' , (event) => {
-      console.log('[character][addListeners] keyup: ', event.key);
+      // console.log('[character][addListeners] keyup: ', event.key);
        switch(event.key){
           case 'ArrowRight':
           case 'ArrowLeft':
@@ -52,5 +58,26 @@ export class Character {
           break;
        }
     });
+  }
+
+  private move(direction: Direction){
+    switch(direction){
+      case 'right':
+        this.setDirection('right');
+        this.character.style.left = `${parseInt(this.character.style.left.split('px')[0])+SPEED}px`; 
+        break;
+      case 'left':
+        this.setDirection('left');
+        this.character.style.left = `${parseInt(this.character.style.left.split('px')[0])-SPEED}px`; 
+        break;
+      case 'down':
+        this.setDirection('down');
+        this.character.style.top = `${parseInt(this.character.style.top.split('px')[0])+SPEED}px`; 
+        break;
+      case 'top':
+        this.setDirection('top');
+        this.character.style.top = `${parseInt(this.character.style.top.split('px')[0])-SPEED}px`; 
+        break;
+    }
   }
 }
