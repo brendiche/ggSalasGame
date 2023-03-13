@@ -5,7 +5,9 @@ export interface box {
   top: (x: number) => number,
 }
 
-export interface boxItems extends Omit<box, 'left' | 'top'>{
+export interface boxItem extends Omit<box, 'left' | 'top'>{
   left: number,
   top:number
 }
+
+export type Direction = 'top' | 'down' | 'right' | 'left' | 'stand';

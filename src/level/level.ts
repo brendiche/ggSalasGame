@@ -1,12 +1,15 @@
 import { getRandomColor } from "../helper";
 import { Screen } from "../screen";
-import { box, boxItems } from "../types";
+import { box, boxItem } from "../types";
 
 const MAP_CONTAINER_CLASS = 'map-container';
-
+export interface OffsetMap {
+  top: number;
+  left: number;
+}
 export interface MapConfig {
   box: box;
-  items: boxItems[],
+  items: boxItem[],
 }
 
 export class Level {
@@ -20,13 +23,24 @@ export class Level {
     this.mapConfig = config;
   }
 
-  getElement(): HTMLDivElement{
+  getLevel(): HTMLDivElement{
     const el = document.createElement('div');
     el.className = MAP_CONTAINER_CLASS;
     const map = document.createElement('div');
     map.className = this._map;
     el.appendChild(map);
     return el;
+  }
+
+  getItems(): boxItem[]{
+    return this.mapConfig.items;
+  }
+
+  getOffset(): OffsetMap{
+    return {
+      top: Math.trunc(this.mapConfig.box.top(this.screen.getSize().heightScreen)),
+      left:  Math.trunc(this.mapConfig.box.left(this.screen.getSize().widthScreen))
+    }
   }
 
   debug(){

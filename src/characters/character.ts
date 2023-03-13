@@ -1,28 +1,70 @@
 import '../assets/characters/character.css'
 import { Engine } from '../core/engine';
+import { getRandomColor, getValue, setValue } from '../helper';
+import { boxItem, Direction } from '../types';
 
-type Direction = 'top' | 'down' | 'right' | 'left' | 'stand'
-const SPEED = 3;
 export class Character {
 
   private name: string;
   private character: HTMLElement;
   private direction: Direction;
+  private collider: boxItem;
+  private _debug = false;
 
   constructor(name: string, engine: Engine, top: number, left: number){
     this.name = name;
     this.character = document.createElement('div');
     this.character.className = `${name}-stand`;
+    // TODO 2023-03-13 this should be in an init function depending of the level
     this.character.style.top = `${top+244}px`;
     this.character.style.left = `${left}px`;
+    // ************
+    this.collider = {
+      height: 32,
+      width: 42,
+      top: top+244+28,
+      left: left+10,
+    }
     this.addEventListeners();
     engine.addGamingThread(() => {
-      this.move(this.direction);
+      this.updateCollider();
     })
   }
 
   getCharacter(): HTMLElement{
     return this.character;
+  }
+
+  getCharacterDirection(): Direction{
+    return this.direction;
+  }
+
+  getCharacterCollider(): boxItem{
+    return this.collider;
+  }
+
+  debug(){
+    this._debug = true;
+    let addToDom = false;
+    const debugCollider = document.getElementById('collider') ?? document.createElement('div');
+    if(!debugCollider.id){
+      debugCollider.id = 'collider'
+      debugCollider.style.backgroundColor = getRandomColor();
+      debugCollider.style.opacity = '50%';
+      debugCollider.style.position = 'absolute';
+      setValue(debugCollider, this.collider.height, 'height');
+      setValue(debugCollider, this.collider.width, 'width');
+      addToDom = true;
+    } 
+    setValue(debugCollider, this.collider.top, 'top');
+    setValue(debugCollider, this.collider.left, 'left');
+    if(addToDom) document.body.appendChild(debugCollider);
+  }
+
+  private updateCollider(){
+    this.collider.top = getValue(this.character, 'top')+28
+    this.collider.left = getValue(this.character, 'left')+10
+    if(this._debug)   this.debug()
   }
 
   private setDirection(dir: Direction): void{
@@ -48,7 +90,6 @@ export class Character {
       }
     });
     window.addEventListener('keyup' , (event) => {
-      // console.log('[character][addListeners] keyup: ', event.key);
        switch(event.key){
           case 'ArrowRight':
           case 'ArrowLeft':
@@ -58,26 +99,5 @@ export class Character {
           break;
        }
     });
-  }
-
-  private move(direction: Direction){
-    switch(direction){
-      case 'right':
-        this.setDirection('right');
-        this.character.style.left = `${parseInt(this.character.style.left.split('px')[0])+SPEED}px`; 
-        break;
-      case 'left':
-        this.setDirection('left');
-        this.character.style.left = `${parseInt(this.character.style.left.split('px')[0])-SPEED}px`; 
-        break;
-      case 'down':
-        this.setDirection('down');
-        this.character.style.top = `${parseInt(this.character.style.top.split('px')[0])+SPEED}px`; 
-        break;
-      case 'top':
-        this.setDirection('top');
-        this.character.style.top = `${parseInt(this.character.style.top.split('px')[0])-SPEED}px`; 
-        break;
-    }
   }
 }
