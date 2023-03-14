@@ -10,6 +10,26 @@ export const firstLevelConfigParms:box = {
 
 export const itemsConfigParams: boxItem[] = [
   {
+    top: -1,
+    left: -1,
+    height: 386,
+    width: 1
+  },{
+    top: -1,
+    left: -1,
+    height: 1,
+    width: 579
+  },{
+    top: 385,
+    left: -1,
+    height: 1,
+    width: 579
+  },{
+    top: -1,
+    left: 578,
+    height: 386,
+    width: 1
+  },{
     height: 76,
     width: 96,
     top: 308,
