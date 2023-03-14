@@ -10,7 +10,6 @@
   position: absolute;
 } */
 
-.ggsalas-stand,
 .ggsalas-down,
 .ggsalas-left,
 .ggsalas-right,
@@ -21,21 +20,18 @@
   position: absolute;
 }
 
-.ggsalas-down {
+.moving {
   animation: run 500ms steps(4) infinite;
 }
 
 .ggsalas-left {
-  animation: run 500ms steps(4) infinite;
   background-position-y: calc(64px*-1); 
 }
 
 .ggsalas-right {
-  animation: run 500ms steps(4) infinite;
   background-position-y: calc(64px*-2); 
 }
 
 .ggsalas-top {
-  animation: run 500ms steps(4) infinite;
   background-position-y: calc(64px*-3);
 }
