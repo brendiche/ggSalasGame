@@ -34,6 +34,7 @@ export class GameManager {
   }
 
   private characterAbleToMove(direction: Direction):boolean {
+    if(!this.character.isMoving()) return false;
     const collider = this.character.getCharacterCollider();
     const offsetMap = this.level.getOffset();
     switch(direction){

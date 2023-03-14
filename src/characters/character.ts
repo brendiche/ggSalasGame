@@ -14,7 +14,7 @@ export class Character {
   constructor(name: string, engine: Engine, top: number, left: number){
     this.name = name;
     this.character = document.createElement('div');
-    this.character.className = `${name}-stand`;
+    this.character.className = `${name}-top`;
     // TODO 2023-03-13 this should be in an init function depending of the level
     this.character.style.top = `${top+244}px`;
     this.character.style.left = `${left}px`;
@@ -43,6 +43,10 @@ export class Character {
     return this.collider;
   }
 
+  isMoving(): boolean {
+    return this.character.className.includes('moving');
+  }
+
   debug(){
     this._debug = true;
     let addToDom = false;
@@ -50,7 +54,7 @@ export class Character {
     if(!debugCollider.id){
       debugCollider.id = 'collider'
       debugCollider.style.backgroundColor = getRandomColor();
-      debugCollider.style.opacity = '50%';
+      debugCollider.style.opacity = '80%';
       debugCollider.style.position = 'absolute';
       setValue(debugCollider, this.collider.height, 'height');
       setValue(debugCollider, this.collider.width, 'width');
@@ -72,20 +76,32 @@ export class Character {
     this.character.className = `${this.name}-${this.direction}`;
   }
 
+  private stopMoving(){
+    this.character.className = this.character.className.split(' moving')[0];
+  }
+
+  private startMoving(){
+    this.character.className += ' moving';
+  }
+
   private addEventListeners(): void{
     window.addEventListener('keydown', (event) => {
       switch(event.key){
         case 'ArrowRight':
           this.setDirection('right');
+          this.startMoving();
           break;
         case 'ArrowLeft':
           this.setDirection('left');
+          this.startMoving();
           break;
         case 'ArrowDown':
           this.setDirection('down');
+          this.startMoving();
           break;
         case 'ArrowUp':
           this.setDirection('top');
+          this.startMoving();
           break;
       }
     });
@@ -95,7 +111,7 @@ export class Character {
           case 'ArrowLeft':
           case 'ArrowDown':
           case 'ArrowUp':
-            this.setDirection('stand');
+            this.stopMoving();
           break;
        }
     });
