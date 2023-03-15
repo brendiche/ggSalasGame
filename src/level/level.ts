@@ -1,5 +1,5 @@
 import { getRandomColor } from "../helper";
-import { Screen } from "../screen";
+import { Screen } from "../core/screen";
 import { box, boxItem } from "../types";
 
 const MAP_CONTAINER_CLASS = 'map-container';

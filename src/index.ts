@@ -3,10 +3,11 @@ import './assets/maps/maps.css'; // TODO 2023-02-08  this will be moved somewher
 import { Character } from './characters/character';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
-import { Dialog } from './dialog';
+import { Dialog } from './core/dialog';
 import { Level, MapConfig } from './level/level';
 import { firstLevelConfigParms, itemsConfigParams } from './level/levelConfigs';
-import { Screen } from './screen';
+import { Screen } from './core/screen';
+import { Interaction } from './core/interaction';
 
 const screen = new Screen();
 const engine = new Engine();
@@ -29,14 +30,6 @@ const character = new Character('ggsalas',engine, firstLevel.getOffset().top, fi
 */
 
 const gameManager = new GameManager(engine, firstLevel, character);
-gameManager.init()
+gameManager.init();
 
-const dialog = new Dialog({
-  height: 100,
-  width: 569,
-  top: firstLevel.getOffset().top+276,
-  left:firstLevel.getOffset().left
-},['Bienvenu dans le monde mervielleux de GGsalas!', 'C\'est cool de pouvoir tester']);
-document.body.appendChild(dialog.createBox());
-dialog.writeText();
 
