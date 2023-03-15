@@ -1,5 +1,5 @@
-import './assets/dialog.css';
-import { boxItem } from './types';
+import '../assets/dialog.css';
+import { boxItem } from '../types';
 
 const SPEED_WRITING = 50;
 
