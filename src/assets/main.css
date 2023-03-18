@@ -2,6 +2,7 @@ body{
   background-color: #060b25;
   overflow: hidden;
   margin: 0;
+  cursor: none;
 }
 
 .img {
