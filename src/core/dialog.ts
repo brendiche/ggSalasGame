@@ -7,22 +7,29 @@ export class Dialog {
   private text: string[];
   private txtBox: HTMLElement;
 
-  constructor(box: boxItem, text: string[]){
+  constructor(text: string[]){
     this.text = text;
-    this.txtBox = document.createElement('div');
-    this.txtBox.className = 'text';
-    this.txtBox.id = 'txtBox';
-    this.txtBox.style.top = `${box.top}px`
-    this.txtBox.style.left = `${box.left}px`
-    this.txtBox.style.width = `${box.width}px`
-    this.txtBox.style.height = `${box.height}px`
   }
 
-  createBox(): HTMLElement{
-    return this.txtBox;
+  get isDisplayed(): boolean {
+    console.log('the txt box',this.txtBox)
+    return !!this.txtBox;
   }
 
-  writeText(): void{
+  createBox(box: boxItem): void {
+    if(!this.txtBox){
+      this.txtBox = document.createElement('div');
+      this.txtBox.className = 'text';
+      this.txtBox.id = 'txtBox';
+      this.txtBox.style.top = `${box.top}px`;
+      this.txtBox.style.left = `${box.left}px`;
+      this.txtBox.style.width = `${box.width}px`;
+      this.txtBox.style.height = `${box.height}px`;
+    }
+    document.body.appendChild(this.txtBox);
+  }
+
+  writeText(): void {
     const line = document.createElement('div');
     line.className = 'line-1 anim-typewriter';
     this.txtBox.appendChild(line);
@@ -38,7 +45,7 @@ export class Dialog {
         setTimeout(() => {
           writingText.appendData(char);
           if(i === this.text.length - 1 && j === txt.split('').length -1) {
-            window.addEventListener('keydown', this.deleteDialog)
+            window.addEventListener('keydown', (e) => this.deleteDialog(e));
           }
         }, (SPEED_WRITING*(j+1))+(i*timeOffset*SPEED_WRITING))
       })
@@ -47,7 +54,10 @@ export class Dialog {
 
   private deleteDialog(event: KeyboardEvent): void{
     if(event.key === 'Enter'){
-      this.txtBox.remove();
+      if(this.txtBox) {
+        this.txtBox.remove();
+        this.txtBox = undefined;
+      }
       window.removeEventListener('keydown', this.deleteDialog);
     } 
   }

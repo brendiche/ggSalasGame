@@ -102,19 +102,20 @@ export class GameManager {
   }
 
   private interactionCallBack(event: KeyboardEvent){
-    if(event.key === 'Enter') {
-      document.body.appendChild(this.firstDialog.createBox());
+    console.log('I am interaction callback the dialog is displayed : ', this.firstDialog.isDisplayed)
+    if(event.key === 'Enter' && !this.firstDialog.isDisplayed) {
+      this.firstDialog.createBox({
+        height: 100,
+        width: 569,
+        top: this.level.getOffset().top+276,
+        left: this.level.getOffset().left
+      });
       this.firstDialog.writeText();
     }
   }
 
   private createFirstDialog(){
-    const dialog = new Dialog({
-      height: 100,
-      width: 569,
-      top: this.level.getOffset().top+276,
-      left: this.level.getOffset().left
-    },
+    const dialog = new Dialog(
     ['panne d’inspi…', 'flemme…']);
     return dialog;
   }
