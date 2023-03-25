@@ -1,5 +1,5 @@
 import { boxItem } from "../types";
-import { Engine } from "./engine";
+import { Engine } from "../core/engine";
 import { getRandomColor, isOverlaping } from "../helper";
 
 export class Interaction {

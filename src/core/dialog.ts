@@ -2,7 +2,6 @@ import '../assets/dialog.css';
 import { boxItem } from '../types';
 
 const SPEED_WRITING = 50;
-
 export class Dialog {
   private text: string[];
   private txtBox: HTMLElement;
@@ -12,8 +11,15 @@ export class Dialog {
   }
 
   get isDisplayed(): boolean {
-    console.log('the txt box',this.txtBox)
-    return !!this.txtBox;
+    return this.txtBox.style.display !== 'none';
+  }
+
+  display() {
+    this.txtBox.style.display = 'block';
+  }
+
+  hide() {
+    this.txtBox.style.display = 'none';
   }
 
   createBox(box: boxItem): void {
@@ -21,6 +27,7 @@ export class Dialog {
       this.txtBox = document.createElement('div');
       this.txtBox.className = 'text';
       this.txtBox.id = 'txtBox';
+      this.txtBox.style.display = 'none';
       this.txtBox.style.top = `${box.top}px`;
       this.txtBox.style.left = `${box.left}px`;
       this.txtBox.style.width = `${box.width}px`;
@@ -31,6 +38,7 @@ export class Dialog {
 
   writeText(): void {
     const line = document.createElement('div');
+    line.id = 'txtBox-line'
     line.className = 'line-1 anim-typewriter';
     this.txtBox.appendChild(line);
     let timeOffset = 0;
@@ -54,9 +62,9 @@ export class Dialog {
 
   private deleteDialog(event: KeyboardEvent): void{
     if(event.key === 'Enter'){
-      if(this.txtBox) {
-        this.txtBox.remove();
-        this.txtBox = undefined;
+      if(this.txtBox.style.display !== 'none') {
+        this.hide();
+        this.txtBox.removeChild(document.getElementById('txtBox-line'))
       }
       window.removeEventListener('keydown', this.deleteDialog);
     } 
