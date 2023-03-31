@@ -1,47 +1,45 @@
-import '../assets/characters/character.css'
+import '../assets/characters/character.css';
 import { Engine } from '../core/engine';
 import { getRandomColor, getValue, setValue } from '../helper';
 import { boxItem, Direction } from '../types';
 import { Motion } from './motion';
 
-
 export class Character {
-
   private name: string;
   private character: HTMLElement;
   private direction: Direction;
   private collider: boxItem;
   private _debug = false;
 
-  constructor(name: string, engine: Engine, top: number, left: number){
+  constructor(name: string, engine: Engine, top: number, left: number) {
     this.name = name;
     this.character = document.createElement('div');
     this.character.className = `${name}-top`;
     // TODO 2023-03-13 this should be in an init function depending of the level
-    this.character.style.top = `${top+244}px`;
-    this.character.style.left = `${left}px`;
-    this.collider = {
-      height: 32,
-      width: 42,
-      top: top+244+28,
-      left: left+10,
-    }
+    // this.character.style.top = `${top + 244}px`;
+    // this.character.style.left = `${left}px`;
+    // this.collider = {
+    //   height: 32,
+    //   width: 42,
+    //   top: top + 244 + 28,
+    //   left: left + 10,
+    // };
     // ************
     engine.addGamingThread(() => {
       this.updateCollider();
-    })
+    });
     new Motion(this);
   }
 
-  getCharacter(): HTMLElement{
+  getCharacter(): HTMLElement {
     return this.character;
   }
 
-  getCharacterDirection(): Direction{
+  getCharacterDirection(): Direction {
     return this.direction;
   }
 
-  getCharacterCollider(): boxItem{
+  getCharacterCollider(): boxItem {
     return this.collider;
   }
 
@@ -49,40 +47,60 @@ export class Character {
     return this.character.className.includes('moving');
   }
 
-  setDirection(dir: Direction): void{
+  setDirection(dir: Direction): void {
     this.direction = dir;
-    this.character.className = `${this.name}-${this.direction} ${this.isMoving ? ' moving' :''}`;
+    this.character.className = `${this.name}-${this.direction} ${
+      this.isMoving ? ' moving' : ''
+    }`;
   }
 
-  startMoving(){
+  startMoving(): void {
     this.character.className += ' moving';
   }
 
-  stopMoving(){
+  stopMoving(): void {
     this.character.className = this.character.className.split(' moving')[0];
   }
 
-  debug(){
+  display(
+    charBox: boxItem,
+    colliderOffset: { top: number; left: number }
+  ): void {
+    this.character.style.top = `${charBox.top}px`;
+    this.character.style.left = `${charBox.left}px`;
+    this.collider = {
+      height: charBox.height,
+      width: charBox.width,
+      top: charBox.top + colliderOffset.top,
+      left: charBox.left + colliderOffset.left,
+    };
+    this.character.style.display = 'block';
+  }
+
+  debug() {
     this._debug = true;
     let addToDom = false;
-    const debugCollider = document.getElementById('collider') ?? document.createElement('div');
-    if(!debugCollider.id){
-      debugCollider.id = 'collider'
+    const debugCollider =
+      document.getElementById('collider') ?? document.createElement('div');
+    if (!debugCollider.id) {
+      debugCollider.id = 'collider';
       debugCollider.style.backgroundColor = getRandomColor();
       debugCollider.style.opacity = '80%';
       debugCollider.style.position = 'absolute';
       setValue(debugCollider, this.collider.height, 'height');
       setValue(debugCollider, this.collider.width, 'width');
       addToDom = true;
-    } 
+    }
     setValue(debugCollider, this.collider.top, 'top');
     setValue(debugCollider, this.collider.left, 'left');
-    if(addToDom) document.body.appendChild(debugCollider);
+    if (addToDom) document.body.appendChild(debugCollider);
   }
 
-  private updateCollider(){
-    this.collider.top = getValue(this.character, 'top')+28
-    this.collider.left = getValue(this.character, 'left')+10
-    if(this._debug)   this.debug()
+  private updateCollider() {
+    if(this.collider){
+      this.collider.top = getValue(this.character, 'top') + 28;
+      this.collider.left = getValue(this.character, 'left') + 10;
+    }
+    if (this._debug) this.debug();
   }
 }

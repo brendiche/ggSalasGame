@@ -9,9 +9,9 @@
 
 
 .room{
-    background: url('./room.png'); 
-    height: inherit;
-    width: inherit;
-    background-repeat: no-repeat;
-    background-position: center;
+  background-image: url('./room.png');
+  height: inherit;
+  width: inherit;
+  background-repeat: no-repeat;
+  background-position: center;
 }

@@ -8,28 +8,30 @@ export interface OffsetMap {
   left: number;
 }
 export interface MapConfig {
+  className: string;
   box: box;
-  items: boxItem[],
+  items: boxItem[];
 }
 
 export class Level {
-  private _map: string;
   private readonly screen: Screen;
   private mapConfig: MapConfig;
+  private map: HTMLElement;
+  private mapContainer: HTMLElement;
 
-  constructor(mapName: string, config: MapConfig, screen: Screen){
+  constructor(config: MapConfig, screen: Screen){
     this.screen = screen;
-    this._map = mapName;
     this.mapConfig = config;
+    this.mapContainer = document.createElement('div');
+    this.mapContainer.className = MAP_CONTAINER_CLASS;
+    this.map = document.createElement('div');
+    this.map.className = this.mapConfig.className;
+    this.map.style.display = 'none';
+    this.mapContainer.appendChild(this.map);
   }
 
-  getLevel(): HTMLDivElement{
-    const el = document.createElement('div');
-    el.className = MAP_CONTAINER_CLASS;
-    const map = document.createElement('div');
-    map.className = this._map;
-    el.appendChild(map);
-    return el;
+  getLevel(): HTMLElement{
+    return this.mapContainer;
   }
 
   getItems(): boxItem[]{
@@ -41,6 +43,10 @@ export class Level {
       top: Math.trunc(this.mapConfig.box.top(this.screen.getSize().heightScreen)),
       left:  Math.trunc(this.mapConfig.box.left(this.screen.getSize().widthScreen))
     }
+  }
+
+  display(): void{
+    this.map.style.display = 'block';
   }
 
   debug(){

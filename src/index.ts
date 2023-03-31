@@ -6,28 +6,9 @@ import { GameManager } from './core/gameManager';
 import { Level, MapConfig } from './level/level';
 import { firstLevelConfigParms, itemsConfigParams } from './level/levelConfigs';
 import { Screen } from './core/screen';
+import { InitScenario } from './scenarios/init';
 
 const screen = new Screen();
 const engine = new Engine();
 
-/**
- * This will going in a senario class
- */
-
-const firstLevelConfig: MapConfig = {
-  box: firstLevelConfigParms,
-  items: itemsConfigParams
-}
-
-const firstLevel = new Level('room', firstLevelConfig, screen)
-const character = new Character('ggsalas',engine, firstLevel.getOffset().top, firstLevel.getOffset().left);
-
-
-/**
- * 
-*/
-
-const gameManager = new GameManager(engine, firstLevel, character);
-gameManager.init();
-
-
+const initScenario = new InitScenario(screen, engine);

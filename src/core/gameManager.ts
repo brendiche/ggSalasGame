@@ -21,6 +21,13 @@ export class GameManager {
     this.level = level;
     this.character = character;
     this.debug = !!new URLSearchParams(window.location.search).get('debug');
+  }
+
+  init(): void{
+    this.engine.addGamingThread(() => {
+      this.characterMove(this.character.getCharacterDirection())
+    });
+
     this.firstInteractionDialog = new InteractionDialog({
       dialog:{
         text: ['panne d’inspi…', 'flemme…'],
@@ -41,15 +48,6 @@ export class GameManager {
           left: this.level.getOffset().left + 515,
         }
       }
-    });
-  }
-
-  init(): void{
-    document.body.appendChild(this.level.getLevel());
-    document.body.appendChild(this.character.getCharacter());
-
-    this.engine.addGamingThread(() => {
-      this.characterMove(this.character.getCharacterDirection())
     });
 
     window.addEventListener('displayDialogEvent', () => this.preventCharFromMoving = true);
