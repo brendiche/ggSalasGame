@@ -2,15 +2,14 @@ import { Character } from "../characters/character";
 import { getValue, isOverlaping, setValue } from "../helper";
 import { Level } from "../level/level";
 import { Direction } from "../types";
-import { Dialog } from "./dialog";
 import { Engine } from "./engine";
-import { Interaction } from "../interactions/interaction";
 import { InteractionDialog } from "../interactions/interactionDialog";
 
 const SPEED = 3;
 
 export class GameManager {
   private character: Character;
+  private preventCharFromMoving: boolean;
   private level: Level;
   private engine: Engine;
   private readonly debug: boolean;
@@ -42,7 +41,7 @@ export class GameManager {
           left: this.level.getOffset().left + 515,
         }
       }
-    })
+    });
   }
 
   init(): void{
@@ -53,6 +52,9 @@ export class GameManager {
       this.characterMove(this.character.getCharacterDirection())
     });
 
+    window.addEventListener('displayDialogEvent', () => this.preventCharFromMoving = true);
+    window.addEventListener('hideDialogEvent', () => this.preventCharFromMoving = false);
+
     if(this.debug){
       this.level.debug();
       this.character.debug();
@@ -61,7 +63,7 @@ export class GameManager {
   }
 
   private characterAbleToMove(direction: Direction):boolean {
-    if(!this.character.isMoving()) return false;
+    if(!this.character.isMoving() || this.preventCharFromMoving) return false;
     const collider = this.character.getCharacterCollider();
     const offsetMap = this.level.getOffset();
     switch(direction){

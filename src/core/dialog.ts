@@ -5,9 +5,12 @@ const SPEED_WRITING = 50;
 export class Dialog {
   private text: string[];
   private txtBox: HTMLElement;
-
+  private displayDialogEvent: Event;
+  private hideDialogEvent: Event;
   constructor(text: string[]){
     this.text = text;
+    this.displayDialogEvent = new Event('displayDialogEvent'); // TODO 2023-03-29 : export const from those 2
+    this.hideDialogEvent = new Event('hideDialogEvent');
   }
 
   get isDisplayed(): boolean {
@@ -16,10 +19,12 @@ export class Dialog {
 
   display() {
     this.txtBox.style.display = 'block';
+    window.dispatchEvent(this.displayDialogEvent);
   }
 
   hide() {
     this.txtBox.style.display = 'none';
+    window.dispatchEvent(this.hideDialogEvent);
   }
 
   createBox(box: boxItem): void {
