@@ -27,6 +27,14 @@ export class Dialog {
     window.dispatchEvent(this.hideDialogEvent);
   }
 
+  onHide(callback: () => void): void{
+    const cb = () => {
+      callback();
+      window.removeEventListener('hideDialogEvent', cb)
+    };
+    window.addEventListener('hideDialogEvent', cb);
+  }
+
   createBox(box: boxItem): void {
     if(!this.txtBox){
       this.txtBox = document.createElement('div');

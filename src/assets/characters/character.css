@@ -3,13 +3,6 @@
   to { background-position-x: -256px; }
 }
 
-/* .all {
-  background: url('./ggsalas-sprit.png'); 
-  height: 256px;
-  width: 256px;
-  position: absolute;
-} */
-
 .ggsalas-down,
 .ggsalas-left,
 .ggsalas-right,
@@ -34,4 +27,12 @@
 
 .ggsalas-top {
   background-position-y: calc(64px*-3);
+}
+
+.sensei{
+  background: url('./sensei.png');
+  height: 80px;
+  width: 67.5px;
+  position: absolute;
+  background-size: cover;
 }
