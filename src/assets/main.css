@@ -48,6 +48,11 @@ body {
   animation: image_blink_invisible 0.2s infinite;
 }
 
+.animate-image-gray {
+  animation: image_gray 2s;
+  filter: grayscale(1);
+}
+
 @keyframes image_blur {
   0% {
     -webkit-filter: blur(50px);
@@ -56,6 +61,17 @@ body {
     -webkit-filter: blur(0px);
   }
 }
+
+@keyframes image_gray {
+  0% {
+    -webkit-filter: grayscale(0);
+  }
+  100% {
+    -webkit-filter: grayscale(1);
+  }
+}
+
+
 
 @keyframes image_from_black {
   0% {

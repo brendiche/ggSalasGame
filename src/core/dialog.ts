@@ -27,9 +27,12 @@ export class Dialog {
     window.dispatchEvent(this.hideDialogEvent);
   }
 
-  // TODO 2023-03-31 this will be a source of bug in the future
   onHide(callback: () => void): void{
-    window.addEventListener('hideDialogEvent', () => callback());
+    const cb = () => {
+      callback();
+      window.removeEventListener('hideDialogEvent', cb)
+    };
+    window.addEventListener('hideDialogEvent', cb);
   }
 
   createBox(box: boxItem): void {

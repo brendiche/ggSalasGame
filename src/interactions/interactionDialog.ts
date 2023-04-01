@@ -30,6 +30,10 @@ export class InteractionDialog extends Interaction {
     this.dialog.createBox(interactionDialogParams.dialog.box);
   }
 
+  onHide(callback: () => void): void{
+    this.dialog.onHide(callback);
+  }
+
   private enterCallbackDialog(): void{
     this.callbackRef = (e:KeyboardEvent) => this.interactionCallBack(e);
     window.addEventListener('keydown', this.callbackRef);
