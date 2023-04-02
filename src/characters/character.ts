@@ -1,38 +1,31 @@
 import '../assets/characters/character.css';
+import { Base } from '../core/base';
 import { Engine } from '../core/engine';
 import { getRandomColor, getValue, setValue } from '../helper';
 import { boxItem, Direction } from '../types';
 import { Motion } from './motion';
 
-export class Character {
+export class Character extends Base {
   private name: string;
-  private character: HTMLElement;
   private direction: Direction;
   private collider: boxItem;
   private _debug = false;
 
-  constructor(name: string, engine: Engine, top: number, left: number) {
+  constructor(name: string, engine: Engine) {
+    super();
     this.name = name;
-    this.character = document.createElement('div');
-    this.character.className = `${name}-top`;
-    // TODO 2023-03-13 this should be in an init function depending of the level
-    // this.character.style.top = `${top + 244}px`;
-    // this.character.style.left = `${left}px`;
-    // this.collider = {
-    //   height: 32,
-    //   width: 42,
-    //   top: top + 244 + 28,
-    //   left: left + 10,
-    // };
-    // ************
+    this.element = document.createElement('div');
+    this.setDirection('top'); // maybe variablised
+    this.element.style.display = 'none';
     engine.addGamingThread(() => {
       this.updateCollider();
     });
     new Motion(this);
+    document.body.append(this.element);
   }
 
   getCharacter(): HTMLElement {
-    return this.character;
+    return this.element;
   }
 
   getCharacterDirection(): Direction {
@@ -44,37 +37,36 @@ export class Character {
   }
 
   isMoving(): boolean {
-    return this.character.className.includes('moving');
+    return this.element.className.includes('moving');
   }
 
   setDirection(dir: Direction): void {
+    this.removeClass(`${this.name}-${this.direction}`);
+    this.addClass(`${this.name}-${dir}`);
     this.direction = dir;
-    this.character.className = `${this.name}-${this.direction} ${
-      this.isMoving ? ' moving' : ''
-    }`;
   }
 
   startMoving(): void {
-    this.character.className += ' moving';
+    if (!this.isMoving()) this.addClass('moving');
   }
 
   stopMoving(): void {
-    this.character.className = this.character.className.split(' moving')[0];
+    if (this.isMoving()) this.removeClass('moving');
   }
 
   display(
     charBox: boxItem,
     colliderOffset: { top: number; left: number }
   ): void {
-    this.character.style.top = `${charBox.top}px`;
-    this.character.style.left = `${charBox.left}px`;
+    this.element.style.top = `${charBox.top}px`;
+    this.element.style.left = `${charBox.left}px`;
     this.collider = {
       height: charBox.height,
       width: charBox.width,
       top: charBox.top + colliderOffset.top,
       left: charBox.left + colliderOffset.left,
     };
-    this.character.style.display = 'block';
+    this.element.style.display = 'block';
   }
 
   debug() {
@@ -97,9 +89,9 @@ export class Character {
   }
 
   private updateCollider() {
-    if(this.collider){
-      this.collider.top = getValue(this.character, 'top') + 28;
-      this.collider.left = getValue(this.character, 'left') + 10;
+    if (this.collider) {
+      this.collider.top = getValue(this.element, 'top') + 28;
+      this.collider.left = getValue(this.element, 'left') + 10;
     }
     if (this._debug) this.debug();
   }

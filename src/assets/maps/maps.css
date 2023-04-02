@@ -1,4 +1,4 @@
-.map-container{
+.map-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -7,9 +7,16 @@
   background-color: black;
 }
 
-
-.room{
+.room {
   background-image: url('./room.png');
+  height: inherit;
+  width: inherit;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.studio {
+  background-image: url('./studio.png');
   height: inherit;
   width: inherit;
   background-repeat: no-repeat;
