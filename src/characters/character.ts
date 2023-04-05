@@ -21,7 +21,6 @@ export class Character extends Base {
       this.updateCollider();
     });
     new Motion(this);
-    document.body.append(this.element);
   }
 
   getCharacter(): HTMLElement {
@@ -58,6 +57,7 @@ export class Character extends Base {
     charBox: boxItem,
     colliderOffset: { top: number; left: number }
   ): void {
+    document.body.append(this.element);
     this.element.style.top = `${charBox.top}px`;
     this.element.style.left = `${charBox.left}px`;
     this.collider = {

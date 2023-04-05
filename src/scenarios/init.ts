@@ -2,18 +2,26 @@ import { Level, MapConfig } from '../level/level';
 import { Screen } from '../core/screen';
 import {
   charInitialRoomPoss,
+  charInitialStudioPoss,
   dialogBoxRoom,
   roomLevelMapConfig,
+  studioLevelMapConfig,
 } from '../level/levelConfigs';
 import { Engine } from '../core/engine';
 import { Character } from '../characters/character';
 import { GameManager } from '../core/gameManager';
 import { Dialog } from '../core/dialog';
 import { InteractionDialog } from '../interactions/interactionDialog';
+import { Interaction } from '../interactions/interaction';
 
 const BLINK_CLASS = 'animate-image-blink';
+const BLUR_CLASS = 'animate-image-blur';
+const GRAY_CLASS = 'animate-image-gray';
+const TO_BLACK_CLASS = 'animate-image-to-black';
+const FROM_BLACK_CLASS = 'animate-image-from-black';
 export class InitScenario {
   private roomLevel: Level;
+  private studioLevel: Level;
   private character: Character;
   private gameManager: GameManager;
   private engine: Engine;
@@ -24,6 +32,7 @@ export class InitScenario {
     this.roomLevel = new Level(roomLevelMapConfig, screen);
     this.character = new Character('ggsalas', engine);
     this.gameManager = new GameManager(engine, this.roomLevel, this.character);
+    this.studioLevel = new Level(studioLevelMapConfig, screen);
   }
 
   init(): void {
@@ -33,10 +42,7 @@ export class InitScenario {
       this.displayRoomLevel();
       // display blink char
       setTimeout(() => {
-        const level = this.roomLevel.getLevel();
-        level.className += level.className
-          .split(' animate-image-blur')
-          .join('');
+        this.roomLevel.removeClass(BLUR_CLASS);
         this.displayCharacter();
         // display first dialog
         setTimeout(() => {
@@ -47,9 +53,7 @@ export class InitScenario {
   }
 
   private displayRoomLevel() {
-    const level = this.roomLevel.getLevel();
-    document.body.append(level);
-    level.className += ' animate-image-blur';
+    this.roomLevel.addClass(BLUR_CLASS);
     this.roomLevel.display();
   }
 
@@ -70,8 +74,8 @@ export class InitScenario {
   private displayCharacter() {
     this.character.addClass(BLINK_CLASS);
     this.character.display(
-      charInitialRoomPoss(this.roomLevel.getOffset()).a, // rename this
-      charInitialRoomPoss(this.roomLevel.getOffset()).b // renmae this
+      charInitialRoomPoss(this.roomLevel.getOffset()).colliderBox,
+      charInitialRoomPoss(this.roomLevel.getOffset()).offset
     );
     setTimeout(() => {
       this.character.removeClass(BLINK_CLASS);
@@ -96,8 +100,7 @@ export class InitScenario {
       },
     });
     firstInteractionDialog.onHide(() => {
-      const level = this.roomLevel.getLevel();
-      level.className += ' animate-image-gray';
+      this.roomLevel.addClass(GRAY_CLASS);
       // display sensei
       setTimeout(() => {
         this.displaySensei();
@@ -129,8 +132,34 @@ export class InitScenario {
   }
 
   private changeMap() {
-    console.log('change map');
-    const level = this.roomLevel.getLevel();
-    level.className += level.className.split(' animate-image-gray').join('');
+    this.roomLevel.removeClass(GRAY_CLASS);
+    const goToStudio = new Interaction(
+      this.engine,
+      this.character.getCharacterCollider(),
+      {
+        height: 10,
+        width: 22,
+        top: this.roomLevel.getOffset().top + 60,
+        left: this.roomLevel.getOffset().left + 70,
+      },
+      () => {
+        if (this.character.getCharacterDirection() === 'top') {
+          this.character.destroy();
+          this.roomLevel.addClass(TO_BLACK_CLASS);
+          setTimeout(() => {
+            this.gameManager.switchLevel(this.studioLevel);
+            this.roomLevel.removeClass(TO_BLACK_CLASS);
+            this.roomLevel.destroy();
+            this.studioLevel.addClass(FROM_BLACK_CLASS);
+            this.studioLevel.display();
+            // display character
+            this.character.display(
+              charInitialStudioPoss(this.studioLevel.getOffset()).coliderBox, // rename this
+              charInitialStudioPoss(this.studioLevel.getOffset()).offset // renmae this
+            );
+          }, 2000);
+        }
+      }
+    );
   }
 }

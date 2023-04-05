@@ -8,4 +8,8 @@ export class Base {
   removeClass(className: string): void {
     this.element.className = this.element.className.split(` ${className}`).join('');
   }
+
+  destroy(){
+    this.element.remove();
+  }
 }

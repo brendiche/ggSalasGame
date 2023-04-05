@@ -41,6 +41,10 @@ export class GameManager {
     }
   }
 
+  switchLevel(level: Level) {
+    this.level = level;
+  }
+
   private characterAbleToMove(direction: Direction): boolean {
     if (!this.character.isMoving() || this.preventCharFromMoving) return false;
     const collider = this.character.getCharacterCollider();

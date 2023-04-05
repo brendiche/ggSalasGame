@@ -18,7 +18,7 @@ const roomItemsConfigParams: boxItem[] = [
     width: 1,
   },
   {
-    top: -1,
+    top: 43,
     left: -1,
     height: 1,
     width: 579,
@@ -111,13 +111,13 @@ export const roomLevelMapConfig: MapConfig = {
 
 export const charInitialRoomPoss = (offset: OffsetMap) => {
   return {
-    a: {
+    colliderBox: {
       height: 32,
       width: 42,
       top: offset.top + 244,
       left: offset.left,
     },
-    b: {
+    offset: {
       top: 28,
       left: 10,
     },
@@ -205,4 +205,19 @@ export const studioLevelMapConfig: MapConfig = {
   className: 'studio',
   box: studioLevelConfigParams,
   items: studioItemsConfigParams,
+};
+
+export const charInitialStudioPoss = (offset: OffsetMap) => {
+  return {
+    coliderBox: {
+      height: 32,
+      width: 42,
+      top: offset.top + 314,
+      left: offset.left + 210,
+    },
+    offset: {
+      top: 28,
+      left: 10,
+    },
+  };
 };
