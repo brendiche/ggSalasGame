@@ -53,6 +53,16 @@ body {
   filter: grayscale(1);
 }
 
+.animate-image-to-black {
+  animation: image_to_black 2s;
+  filter: brightness(0);
+}
+
+.animate-image-from-black {
+  animation: image_from_black 2s;
+  filter: brightness(1);
+}
+
 @keyframes image_blur {
   0% {
     -webkit-filter: blur(50px);
