@@ -32,6 +32,7 @@ module.exports = (env) => ({
   plugins: [
     new HtmlWebpackPlugin({
      title: 'The game project',
+     template: './src/assets/index.ejs'
     }),
   ],
 });
