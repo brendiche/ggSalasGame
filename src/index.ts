@@ -8,10 +8,22 @@ import { charInitialRoomPoss, roomLevelMapConfig } from './level/levelConfigs';
 import { InitScenario } from './scenarios/init';
 
 const screen = new Screen();
-const engine = new Engine();
+if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
+  console.log(' ALL OK !!');
+  const engine = new Engine();
 
-const initScenario = new InitScenario(screen, engine);
-initScenario.init();
+  const initScenario = new InitScenario(screen, engine);
+  initScenario.init();
+} else {
+  console.log('GET THE GOOD DEVICE');
+  const goodbyeText = document.createTextNode(
+    'Ce jeu est uniquement disponible sur PC'
+  );
+  const container = document.createElement('div');
+  container.className = 'txt';
+  container.appendChild(goodbyeText);
+  document.body.append(container);
+}
 
 // const roomLevel = new Level(roomLevelMapConfig, screen);
 // roomLevel.display();
