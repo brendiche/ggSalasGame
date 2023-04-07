@@ -2,7 +2,7 @@ import './assets/main.css';
 import { Character } from './characters/character';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
-import { GoldenBook } from './core/goldenBook';
+import { showForm } from './core/goldenBook';
 import { Screen } from './core/screen';
 import { getParams } from './helper';
 import { Level } from './level/level';
@@ -14,8 +14,7 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   const params = getParams();
   if (params?.goldenBook) {
     console.log('golden book');
-    const goldenBookForm = new GoldenBook();
-    goldenBookForm.createForm();
+    showForm();
   } else {
     const engine = new Engine();
 

@@ -1,18 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script type='text/javascript'>
-      window.smartlook||(function(d) {
-        var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-        var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-        c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+    <script type="text/javascript">
+      window.smartlook ||
+        (function (d) {
+          var o = (smartlook = function () {
+              o.api.push(arguments);
+            }),
+            h = d.getElementsByTagName('head')[0];
+          var c = d.createElement('script');
+          o.api = new Array();
+          c.async = true;
+          c.type = 'text/javascript';
+          c.charset = 'utf-8';
+          c.src = 'https://web-sdk.smartlook.com/recorder.js';
+          h.appendChild(c);
         })(document);
-        smartlook('init', 'MTlbnxvOkSJ7PxhmhshJfpDonGG1N7PThPnMApl2', { region: 'eu' });
+      smartlook('init', 'MTlbnxvOkSJ7PxhmhshJfpDonGG1N7PThPnMApl2', {
+        region: 'eu',
+      });
     </script>
   </head>
   <body>
-    <form name="goldenBook" method="POST" data-netlify="true" style="color: white;" hidden=""><label>Nom : <input name="name" type="text" style="color: white;"></label><button type="submit">Envoyer</button></form>
+    <form name="goldenBook" method="POST" data-netlify="true" hidden>
+      <div class="label" style="grid-column: 2; grid-row: 2; align-self: end">
+        <label style="color: white"> Nom : </label>
+      </div>
+      <div style="grid-column: 3; grid-row: 2; align-self: end">
+        <input name="name" type="text" />
+      </div>
+      <div class="label" style="grid-column: 2; grid-row: 3">
+        <label style="color: white"> Message : </label>
+      </div>
+      <div style="grid-column: 3; grid-row: 3; justify-self: stretch">
+        <textarea name="message" cols="40" rows="5"></textarea>
+      </div>
+      <div style="grid-column: 3; grid-row: 4; text-align: right">
+        <button type="submit">Envoyer</button>
+      </div>
+    </form>
   </body>
 </html>
