@@ -15,6 +15,13 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   if (params?.goldenBook) {
     console.log('golden book');
     showForm();
+    fetch('https://api.netlify.com/api/v1/submissions/642fcadbc3d2500008bbad59')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log('error :', err);
+      });
   } else {
     const engine = new Engine();
 
