@@ -1,3 +1,4 @@
+require('@netlify/open-api')
 const netlifyPromise =  import('netlify');
 
 exports.handler = async function () {
