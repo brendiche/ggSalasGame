@@ -1,5 +1,6 @@
 import './assets/main.css';
 import { Character } from './characters/character';
+import { EndCredit } from './core/endCredit';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
 import { showForm, getMessages } from './core/goldenBook';
@@ -15,6 +16,9 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   if (params?.goldenBook) {
     console.log('golden book');
     showForm();
+  } else if (params?.endCredit) {
+    const endCredit = new EndCredit();
+    endCredit.display();
   } else {
     const engine = new Engine();
 

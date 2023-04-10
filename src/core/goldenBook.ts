@@ -6,7 +6,7 @@ export const showForm = () => {
 
 const GET_MESSAGE_URL = '.netlify/functions/getGoldenBookMessages';
 
-export const getMessages = async () => {
+export const getMessages = async (): Promise<any[]> => {
   let baseUrl: string;
   if (window.location.hostname.includes('localhost')) {
     baseUrl = 'http://localhost:8888';
@@ -18,6 +18,7 @@ export const getMessages = async () => {
     const data = await request.json(); // TODO type this data
     const messages = data.goldenBook;
     console.log(messages);
+    return messages;
   } catch (error) {
     console.error(error);
   }
