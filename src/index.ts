@@ -2,7 +2,7 @@ import './assets/main.css';
 import { Character } from './characters/character';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
-import { showForm } from './core/goldenBook';
+import { showForm, getMessages } from './core/goldenBook';
 import { Screen } from './core/screen';
 import { getParams } from './helper';
 import { Level } from './level/level';
