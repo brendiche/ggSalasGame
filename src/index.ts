@@ -2,18 +2,25 @@ import './assets/main.css';
 import { Character } from './characters/character';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
+import { showForm, getMessages } from './core/goldenBook';
 import { Screen } from './core/screen';
+import { getParams } from './helper';
 import { Level } from './level/level';
 import { charInitialRoomPoss, roomLevelMapConfig } from './level/levelConfigs';
 import { InitScenario } from './scenarios/init';
 
 const screen = new Screen();
 if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
-  console.log(' ALL OK !!');
-  const engine = new Engine();
+  const params = getParams();
+  if (params?.goldenBook) {
+    console.log('golden book');
+    showForm();
+  } else {
+    const engine = new Engine();
 
-  const initScenario = new InitScenario(screen, engine);
-  initScenario.init();
+    const initScenario = new InitScenario(screen, engine);
+    initScenario.init();
+  }
 } else {
   console.log('GET THE GOOD DEVICE');
   const goodbyeText = document.createTextNode(
