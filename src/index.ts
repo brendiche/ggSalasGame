@@ -1,9 +1,11 @@
 import './assets/main.css';
+import './assets/sounds/swoosh.mp3';
 import { Character } from './characters/character';
 import { Engine } from './core/engine';
 import { GameManager } from './core/gameManager';
 import { showForm, getMessages } from './core/goldenBook';
 import { Screen } from './core/screen';
+import { SoundPlayer } from './core/soundPlayer';
 import { getParams } from './helper';
 import { Level } from './level/level';
 import { charInitialRoomPoss, roomLevelMapConfig } from './level/levelConfigs';
@@ -16,10 +18,15 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
     console.log('golden book');
     showForm();
   } else {
-    const engine = new Engine();
-
-    const initScenario = new InitScenario(screen, engine);
-    initScenario.init();
+    const audio = new SoundPlayer('../src/assets/sounds/swoosh.mp3', {
+      volume: 0.5,
+    });
+    document.addEventListener('', () => {
+      // audio.play();
+    });
+    // const engine = new Engine();
+    // const initScenario = new InitScenario(screen, engine);
+    // initScenario.init();
   }
 } else {
   console.log('GET THE GOOD DEVICE');

@@ -23,6 +23,13 @@ module.exports = (env) => ({
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ogg|mp3|wav)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
     ],
   },
   resolve: {
