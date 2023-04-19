@@ -22,15 +22,15 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
     const endCredit = new EndCredit();
     endCredit.display();
   } else {
-    const audio = new SoundPlayer('../src/assets/sounds/swoosh.mp3', {
-      volume: 0.5,
-    });
-    document.addEventListener('', () => {
-      // audio.play();
-    });
-    // const engine = new Engine();
-    // const initScenario = new InitScenario(screen, engine);
-    // initScenario.init();
+    // const audio = new SoundPlayer('../src/assets/sounds/swoosh.mp3', {
+    //   volume: 0.5,
+    // });
+    // document.addEventListener('', () => {
+    //   // audio.play();
+    // });
+    const engine = new Engine();
+    const initScenario = new InitScenario(screen, engine);
+    initScenario.init();
   }
 } else {
   console.log('GET THE GOOD DEVICE');

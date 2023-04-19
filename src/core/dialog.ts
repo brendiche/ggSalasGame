@@ -7,7 +7,9 @@ export class Dialog {
   private txtBox: HTMLElement;
   private displayDialogEvent: Event;
   private hideDialogEvent: Event;
-  constructor(text: string[]){
+  private line: HTMLElement;
+
+  constructor(text: string[]) {
     this.text = text;
     this.displayDialogEvent = new Event('displayDialogEvent'); // TODO 2023-03-29 : export const from those 2
     this.hideDialogEvent = new Event('hideDialogEvent');
@@ -27,16 +29,16 @@ export class Dialog {
     window.dispatchEvent(this.hideDialogEvent);
   }
 
-  onHide(callback: () => void): void{
+  onHide(callback: () => void): void {
     const cb = () => {
       callback();
-      window.removeEventListener('hideDialogEvent', cb)
+      window.removeEventListener('hideDialogEvent', cb);
     };
     window.addEventListener('hideDialogEvent', cb);
   }
 
   createBox(box: boxItem): void {
-    if(!this.txtBox){
+    if (!this.txtBox) {
       this.txtBox = document.createElement('div');
       this.txtBox.className = 'text';
       this.txtBox.id = 'txtBox';
@@ -50,36 +52,35 @@ export class Dialog {
   }
 
   writeText(): void {
-    const line = document.createElement('div');
-    line.id = 'txtBox-line'
-    line.className = 'line-1 anim-typewriter';
-    this.txtBox.appendChild(line);
+    this.line = document.createElement('div');
+    this.line.className = 'line-1 anim-typewriter';
+    this.txtBox.appendChild(this.line);
     let timeOffset = 0;
-    this.text.forEach((txt,i) => {
+    this.text.forEach((txt, i) => {
       const writingText = document.createTextNode('');
-      if(i > 0) {
-        line.appendChild(document.createElement('br'));
-        timeOffset += this.text[i-1].split('').length;
+      if (i > 0) {
+        this.line.appendChild(document.createElement('br'));
+        timeOffset += this.text[i - 1].split('').length;
       }
-      line.appendChild(writingText);
-      txt.split('').forEach((char,j) => {
+      this.line.appendChild(writingText);
+      txt.split('').forEach((char, j) => {
         setTimeout(() => {
           writingText.appendData(char);
-          if(i === this.text.length - 1 && j === txt.split('').length -1) {
+          if (i === this.text.length - 1 && j === txt.split('').length - 1) {
             window.addEventListener('keydown', (e) => this.deleteDialog(e));
           }
-        }, (SPEED_WRITING*(j+1))+(i*timeOffset*SPEED_WRITING))
-      })
+        }, SPEED_WRITING * (j + 1) + i * timeOffset * SPEED_WRITING);
+      });
     });
   }
 
-  private deleteDialog(event: KeyboardEvent): void{
-    if(event.key === 'Enter'){
-      if(this.txtBox.style.display !== 'none') {
+  private deleteDialog(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      if (this.txtBox.style.display !== 'none') {
         this.hide();
-        this.txtBox.removeChild(document.getElementById('txtBox-line'))
+        this.txtBox.removeChild(this.line);
       }
       window.removeEventListener('keydown', this.deleteDialog);
-    } 
+    }
   }
 }

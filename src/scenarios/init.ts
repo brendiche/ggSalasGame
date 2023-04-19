@@ -1,3 +1,6 @@
+import '../assets/sounds/coin-ding.wav';
+import '../assets/sounds/ambiant.wav';
+import '../assets/sounds/evil-laugh.wav';
 import { Level, MapConfig } from '../level/level';
 import { Screen } from '../core/screen';
 import {
@@ -13,6 +16,7 @@ import { GameManager } from '../core/gameManager';
 import { Dialog } from '../core/dialog';
 import { InteractionDialog } from '../interactions/interactionDialog';
 import { Interaction } from '../interactions/interaction';
+import { SoundPlayer } from '../core/soundPlayer';
 
 const BLINK_CLASS = 'animate-image-blink';
 const BLUR_CLASS = 'animate-image-blur';
@@ -36,9 +40,65 @@ export class InitScenario {
   }
 
   init(): void {
+    // display landing page
+    this.displayLandingPage();
     // display first level
     // update the trigger displaying level !
+    // setTimeout(() => {
+    // }, 2000);
+  }
+
+  private displayLandingPage() {
+    const landing = document.createElement('div');
+    landing.className = 'landing';
+    const txt = document.createElement('p');
+    txt.className = 'txt';
+    txt.innerText = 'Appuyez sur enter';
+    txt.style.top = '50px';
+    const txt2 = document.createElement('p');
+    txt2.className = 'txt';
+    txt2.innerText = "pour commencer l'aventure";
+    txt2.style.top = '75px';
+    landing.appendChild(txt);
+    landing.appendChild(txt2);
+    document.body.append(landing);
+    const sound = new SoundPlayer('../src/assets/sounds/coin-ding.wav', {
+      volume: 0.1,
+    });
+    const pressEnter = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        sound.play();
+        window.removeEventListener('keydown', pressEnter);
+        landing.className += ` ${TO_BLACK_CLASS}`;
+        setTimeout(() => {
+          landing.remove();
+          this.transitionToRoomLevel();
+        }, 2000);
+      }
+    };
+    window.addEventListener('keydown', pressEnter);
+  }
+
+  private playAmbiantSound() {
+    const ambiant = new SoundPlayer('../src/assets/sounds/ambiant.wav', {
+      loop: true,
+      volume: 0.01,
+    });
+    ambiant.play();
+  }
+
+  private transitionToRoomLevel() {
+    const laught = new SoundPlayer('../src/assets/sounds/evil-laugh.wav', {
+      volume: 1,
+    });
+    const laughtDialog = new Dialog(['* rire maléfique *']);
+    laughtDialog.createBox(dialogBoxRoom(this.roomLevel.getOffset()));
+    laughtDialog.display();
+    laught.play();
+    laughtDialog.writeText();
     setTimeout(() => {
+      laughtDialog.hide();
+      this.playAmbiantSound();
       this.displayRoomLevel();
       // display blink char
       setTimeout(() => {
@@ -49,7 +109,7 @@ export class InitScenario {
           this.displayFristDialog();
         }, 1000);
       }, 2500);
-    }, 2000);
+    }, 3000);
   }
 
   private displayRoomLevel() {
@@ -59,8 +119,8 @@ export class InitScenario {
 
   private displayFristDialog() {
     const firstDialog = new Dialog([
-      'ohhhh !!! que s’est-il passé ???',
-      'je dois terminer GBD 3 !!!',
+      'Hein ??? Que s’est-il passé ???',
+      'Vite ! Je dois terminer Galbadia Vol.3',
     ]);
     firstDialog.createBox(dialogBoxRoom(this.roomLevel.getOffset()));
     firstDialog.display();
@@ -85,7 +145,11 @@ export class InitScenario {
   private createFirstInteractionDialog() {
     const firstInteractionDialog = new InteractionDialog({
       dialog: {
-        text: ['panne d’inspi…', 'flemme…'],
+        text: [
+          '…',
+          '…',
+          'Erf… Encore une panne d’inspi, je n’y arriverai jamais…',
+        ],
         box: dialogBoxRoom(this.roomLevel.getOffset()),
       },
       interaction: {
