@@ -1,6 +1,6 @@
-// import '../assets/sounds/coin-ding.wav';
-// import '../assets/sounds/ambiant.wav';
-// import '../assets/sounds/evil-laugh.wav';
+import '../assets/sounds/start_game.mp3';
+import '../assets/sounds/music_normal.mp3';
+import '../assets/sounds/rire_malefique.wav';
 import { Level, MapConfig } from '../level/level';
 import { Screen } from '../core/screen';
 import {
@@ -17,6 +17,7 @@ import { Dialog } from '../dialogs/dialog';
 import { InteractionDialog } from '../interactions/interactionDialog';
 import { Interaction } from '../interactions/interaction';
 import { SoundPlayer } from '../core/soundPlayer';
+import { GgSalasDialog } from '../dialogs/ggSalasDialog';
 
 const BLINK_CLASS = 'animate-image-blink';
 const BLUR_CLASS = 'animate-image-blur';
@@ -40,12 +41,7 @@ export class InitScenario {
   }
 
   init(): void {
-    // display landing page
     this.displayLandingPage();
-    // display first level
-    // update the trigger displaying level !
-    // setTimeout(() => {
-    // }, 2000);
   }
 
   private displayLandingPage() {
@@ -62,8 +58,8 @@ export class InitScenario {
     landing.appendChild(txt);
     landing.appendChild(txt2);
     document.body.append(landing);
-    const sound = new SoundPlayer('../src/assets/sounds/coin-ding.wav', {
-      volume: 0.1,
+    const sound = new SoundPlayer('../src/assets/sounds/start_game.mp3', {
+      speed: 1.6,
     });
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
@@ -80,15 +76,15 @@ export class InitScenario {
   }
 
   private playAmbiantSound() {
-    const ambiant = new SoundPlayer('../src/assets/sounds/ambiant.wav', {
+    const ambiant = new SoundPlayer('../src/assets/sounds/music_normal.mp3', {
       loop: true,
-      volume: 0.01,
+      volume: 0.3,
     });
     ambiant.play();
   }
 
   private transitionToRoomLevel() {
-    const laught = new SoundPlayer('../src/assets/sounds/evil-laugh.wav', {
+    const laught = new SoundPlayer('../src/assets/sounds/rire_malefique.wav', {
       volume: 1,
     });
     const laughtDialog = new Dialog(['* rire maléfique *']);
@@ -118,7 +114,7 @@ export class InitScenario {
   }
 
   private displayFristDialog() {
-    const firstDialog = new Dialog([
+    const firstDialog = new GgSalasDialog([
       'Hein ??? Que s’est-il passé ???',
       'Vite ! Je dois terminer Galbadia Vol.3',
     ]);
