@@ -11,15 +11,18 @@ export class Character extends Base {
   private collider: boxItem;
   private _debug = false;
 
-  constructor(name: string, engine: Engine) {
+  constructor(name: string, engine: Engine, direction: Direction = 'top') {
     super();
     this.name = name;
     this.element = document.createElement('div');
-    this.setDirection('top'); // maybe variablised
+    this.setDirection(direction);
     this.element.style.display = 'none';
     engine.addGamingThread(() => {
       this.updateCollider();
     });
+  }
+
+  addMotion() {
     new Motion(this);
   }
 
