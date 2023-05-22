@@ -27,7 +27,8 @@ const FROM_BLACK_CLASS = 'animate-image-from-black';
 export class InitScenario {
   private roomLevel: Level;
   private studioLevel: Level;
-  private character: Character;
+  private ggsalas: Character;
+  private sensei: Character;
   private gameManager: GameManager;
   private engine: Engine;
 
@@ -35,8 +36,10 @@ export class InitScenario {
     // black screen + play sound
     this.engine = engine;
     this.roomLevel = new Level(roomLevelMapConfig, screen);
-    this.character = new Character('ggsalas', engine);
-    this.gameManager = new GameManager(engine, this.roomLevel, this.character);
+    this.ggsalas = new Character('ggsalas', engine);
+    this.ggsalas.addMotion();
+    this.sensei = new Character('sensei', engine, 'down');
+    this.gameManager = new GameManager(engine, this.roomLevel, this.ggsalas);
     this.studioLevel = new Level(studioLevelMapConfig, screen);
   }
 
@@ -128,13 +131,13 @@ export class InitScenario {
   }
 
   private displayCharacter() {
-    this.character.addClass(BLINK_CLASS);
-    this.character.display(
+    this.ggsalas.addClass(BLINK_CLASS);
+    this.ggsalas.display(
       charInitialRoomPoss(this.roomLevel.getOffset()).colliderBox,
       charInitialRoomPoss(this.roomLevel.getOffset()).offset
     );
     setTimeout(() => {
-      this.character.removeClass(BLINK_CLASS);
+      this.ggsalas.removeClass(BLINK_CLASS);
     }, 500);
   }
 
@@ -150,7 +153,7 @@ export class InitScenario {
       },
       interaction: {
         engin: this.engine,
-        trigger: this.character.getCharacterCollider(),
+        trigger: this.ggsalas.getCharacterCollider(),
         activationArea: {
           height: 34,
           width: 29,
@@ -168,21 +171,30 @@ export class InitScenario {
     });
   }
 
-  // TODO : PUT PNJ IN CLASS
   private displaySensei() {
-    const sensei = document.createElement('div');
-    sensei.id = 'sensei';
-    sensei.className = 'sensei animate-image-blur';
-    sensei.style.top = `${this.roomLevel.getOffset().top + 79}px`;
-    sensei.style.left = `${this.roomLevel.getOffset().left + 255}px`;
-    document.body.append(sensei);
+    this.sensei.addClass(BLUR_CLASS);
+    this.sensei.display(
+      {
+        top: this.roomLevel.getOffset().top + 79,
+        left: this.roomLevel.getOffset().left + 255,
+        height: 42,
+        width: 32,
+      },
+      {
+        top: 28,
+        left: 10,
+      }
+    );
+    setTimeout(() => {
+      this.sensei.removeClass(BLINK_CLASS);
+    }, 500);
     const senseiDialog = new Dialog([
       'Il va falloir te trouver de la motivation!',
       'Sort de chez toi... bouge-toi l’cul mec!',
     ]);
     senseiDialog.createBox(dialogBoxRoom(this.roomLevel.getOffset()));
     senseiDialog.onHide(() => {
-      sensei.remove();
+      this.sensei.destroy();
       this.changeMap();
     });
     setTimeout(() => {
@@ -195,7 +207,7 @@ export class InitScenario {
     this.roomLevel.removeClass(GRAY_CLASS);
     const goToStudio = new Interaction(
       this.engine,
-      this.character.getCharacterCollider(),
+      this.ggsalas.getCharacterCollider(),
       {
         height: 10,
         width: 22,
@@ -203,8 +215,8 @@ export class InitScenario {
         left: this.roomLevel.getOffset().left + 70,
       },
       () => {
-        if (this.character.getCharacterDirection() === 'top') {
-          this.character.destroy();
+        if (this.ggsalas.getCharacterDirection() === 'top') {
+          this.ggsalas.destroy();
           this.roomLevel.addClass(TO_BLACK_CLASS);
           setTimeout(() => {
             this.gameManager.switchLevel(this.studioLevel);
@@ -213,7 +225,7 @@ export class InitScenario {
             this.studioLevel.addClass(FROM_BLACK_CLASS);
             this.studioLevel.display();
             // display character
-            this.character.display(
+            this.ggsalas.display(
               charInitialStudioPoss(this.studioLevel.getOffset()).coliderBox, // rename this
               charInitialStudioPoss(this.studioLevel.getOffset()).offset // renmae this
             );
