@@ -1,5 +1,4 @@
-
-.text{
+.text {
   background-color: #0f0eab;
   border: 4px ridge #b8b8b8;
   border-radius: 5px;
@@ -7,7 +6,7 @@
   z-index: 1000;
 }
 
-.line-1{
+.line-1 {
   position: relative;
   top: 50%;
   margin: 0 auto;
@@ -18,4 +17,26 @@
   transform: translateY(-50%);
   color: white;
   font-family: ggSalasFont;
+}
+
+.align-left > div {
+  text-align: left;
+}
+
+.avatar-dialog {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ggsalas-dresseur {
+  background: url(./characters/ggsalas-dresseur.png);
+  background-position-x: right;
+}
+
+.sensei-dialog {
+  background: url(./characters/sensei.png);
+  background-position-x: right;
+}
+
+.buzz-dialog {
+  background-position-x: right;
 }

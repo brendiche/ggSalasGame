@@ -1,15 +1,17 @@
 import './assets/main.css';
-import './assets/sounds/swoosh.mp3';
-import { Character } from './characters/character';
+import './assets/sounds/ggsalas_txt.mp3';
 import { EndCredit } from './core/endCredit';
 import { Engine } from './core/engine';
-import { GameManager } from './core/gameManager';
-import { showForm, getMessages } from './core/goldenBook';
+import { showForm } from './core/goldenBook';
 import { Screen } from './core/screen';
 import { SoundPlayer } from './core/soundPlayer';
+import { BuzzDialog } from './dialogs/buzzDialog';
+import { CharacterDialog } from './dialogs/characterDialog';
+import { GgSalasDialog } from './dialogs/ggSalasDialog';
+import { SenseiDialog } from './dialogs/senseiDialog';
 import { getParams } from './helper';
 import { Level } from './level/level';
-import { charInitialRoomPoss, roomLevelMapConfig } from './level/levelConfigs';
+import { dialogBoxRoom, roomLevelMapConfig } from './level/levelConfigs';
 import { InitScenario } from './scenarios/init';
 
 const screen = new Screen();
@@ -21,13 +23,32 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   } else if (params?.endCredit) {
     const endCredit = new EndCredit();
     endCredit.display();
+  } else if (params?.dev) {
+    console.log('dev');
+    const roomLevel = new Level(roomLevelMapConfig, screen);
+    // const firstDialog = new CharacterDialog(
+    //   [
+    //     'Hein ??? Que s’est-il passé ???',
+    //     'Vite ! Je dois terminer Galbadia Vol.3',
+    //   ],
+    //   'ggsalas-dresseur',
+    //   new SoundPlayer('./src/assets/sounds/ggsalas_txt.mp3', {
+    //     loop: true,
+    //     volume: 0.1,
+    //   })
+    // );
+
+    const firstDialog = new BuzzDialog([
+      'Hein ??? Que s’est-il passé ???',
+      'Vite ! Je dois terminer Galbadia Vol.3',
+    ]);
+
+    window.addEventListener('click', () => {
+      firstDialog.createBox(dialogBoxRoom(roomLevel.getOffset()));
+      firstDialog.display();
+      firstDialog.writeText();
+    });
   } else {
-    // const audio = new SoundPlayer('../src/assets/sounds/swoosh.mp3', {
-    //   volume: 0.5,
-    // });
-    // document.addEventListener('', () => {
-    //   // audio.play();
-    // });
     const engine = new Engine();
     const initScenario = new InitScenario(screen, engine);
     initScenario.init();
@@ -42,15 +63,3 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   container.appendChild(goodbyeText);
   document.body.append(container);
 }
-
-// const roomLevel = new Level(roomLevelMapConfig, screen);
-// roomLevel.display();
-// // roomLevel.debug();
-// const character = new Character('ggsalas', engine);
-// character.display(
-//   charInitialRoomPoss(roomLevel.getOffset()).a, // rename this
-//   charInitialRoomPoss(roomLevel.getOffset()).b
-// );
-// // character.debug();
-// const gameManager = new GameManager(engine, roomLevel, character);
-// gameManager.init();

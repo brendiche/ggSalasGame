@@ -1,6 +1,6 @@
-import '../assets/sounds/coin-ding.wav';
-import '../assets/sounds/ambiant.wav';
-import '../assets/sounds/evil-laugh.wav';
+// import '../assets/sounds/coin-ding.wav';
+// import '../assets/sounds/ambiant.wav';
+// import '../assets/sounds/evil-laugh.wav';
 import { Level, MapConfig } from '../level/level';
 import { Screen } from '../core/screen';
 import {
@@ -13,7 +13,7 @@ import {
 import { Engine } from '../core/engine';
 import { Character } from '../characters/character';
 import { GameManager } from '../core/gameManager';
-import { Dialog } from '../core/dialog';
+import { Dialog } from '../dialogs/dialog';
 import { InteractionDialog } from '../interactions/interactionDialog';
 import { Interaction } from '../interactions/interaction';
 import { SoundPlayer } from '../core/soundPlayer';
