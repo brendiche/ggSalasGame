@@ -5,6 +5,7 @@ import { Engine } from './core/engine';
 import { showForm } from './core/goldenBook';
 import { Screen } from './core/screen';
 import { SoundPlayer } from './core/soundPlayer';
+import { ActionBox } from './dialogs/actionBox';
 import { BuzzDialog } from './dialogs/buzzDialog';
 import { CharacterDialog } from './dialogs/characterDialog';
 import { GgSalasDialog } from './dialogs/ggSalasDialog';
@@ -38,10 +39,7 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
     //   })
     // );
 
-    const firstDialog = new BuzzDialog([
-      'Hein ??? Que s’est-il passé ???',
-      'Vite ! Je dois terminer Galbadia Vol.3',
-    ]);
+    const firstDialog = new ActionBox('coucou');
 
     window.addEventListener('click', () => {
       firstDialog.createBox(dialogBoxRoom(roomLevel.getOffset()));
