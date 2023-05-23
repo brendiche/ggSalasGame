@@ -9,8 +9,13 @@ export class ActionBox {
     this.text = text;
   }
 
-  display() {
+  display(timmer?: number) {
     this.txtBox.style.display = 'block';
+    if (timmer) {
+      setTimeout(() => {
+        this.hide();
+      }, timmer);
+    }
   }
 
   hide() {
