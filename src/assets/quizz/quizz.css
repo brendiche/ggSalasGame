@@ -1,0 +1,46 @@
+@keyframes annim {
+  0% {
+    background-position-x: 0px;
+  }
+  50% {
+    background-position-x: 10px;
+  }
+  100% {
+    background-position-x: 0px;
+  }
+}
+
+.quizz-text {
+  background-color: #0f0eab;
+  border: 4px ridge #b8b8b8;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: 60px auto;
+}
+
+.quizz-line-1 {
+  position: relative;
+  margin: 5px 0 0 20px;
+  font-size: 15px;
+  text-align: left;
+  color: white;
+  font-family: ggSalasFont;
+}
+
+.quizz-question {
+  grid-column: span 2;
+}
+
+.quizz-answer {
+  grid-column: 2;
+}
+
+.quizz-cursor {
+  background: url('./cursor.png');
+  background-repeat: no-repeat;
+  background-size: 40px;
+  animation: annim 700ms linear infinite;
+  margin: 5px 0 0 10px;
+}

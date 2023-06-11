@@ -3,6 +3,7 @@ import './assets/sounds/ggsalas_txt.mp3';
 import { EndCredit } from './core/endCredit';
 import { Engine } from './core/engine';
 import { showForm } from './core/goldenBook';
+import { Quizz } from './core/quizz';
 import { Screen } from './core/screen';
 import { SoundPlayer } from './core/soundPlayer';
 import { ActionBox } from './dialogs/actionBox';
@@ -27,25 +28,48 @@ if (screen.isSizeValid() && !screen.mobileAndTabletCheck()) {
   } else if (params?.dev) {
     console.log('dev');
     const roomLevel = new Level(roomLevelMapConfig, screen);
-    // const firstDialog = new CharacterDialog(
-    //   [
-    //     'Hein ??? Que s’est-il passé ???',
-    //     'Vite ! Je dois terminer Galbadia Vol.3',
-    //   ],
-    //   'ggsalas-dresseur',
-    //   new SoundPlayer('./src/assets/sounds/ggsalas_txt.mp3', {
-    //     loop: true,
-    //     volume: 0.1,
-    //   })
-    // );
+    // const firstDialog = new SenseiDialog([
+    //   'Hein ??? Que s’est-il passé ???',
+    //   'Vite ! Je dois terminer Galbadia Vol.3',
+    // ]);
 
-    const firstDialog = new ActionBox('coucou');
+    const quizz = new Quizz(
+      [
+        {
+          question:
+            'Tout d’abord, combien de musiques as-tu publié officiellement avant la sortie de Galbadia Vol.3 ? (sans compter les freestyles Instagram)',
+          candidate: ['12', '14', '16'],
+          answer: 1,
+        },
+        {
+          question:
+            'Quel est le nom donné au personnage manager de bureau que tu incarnes dans ton premier EP ?',
+          candidate: ['Jean-Louis', 'Jean-Robert', 'Jean-Edouard'],
+          answer: 0,
+        },
+        {
+          question:
+            'Dans ton clip « Club », quelles sont les couleurs de ta veste ?',
+          candidate: [
+            'Noir, violet, bleu',
+            'Noir, jaune, rouge',
+            'Blanc, jaune, rouge',
+          ],
+          answer: 0,
+        },
+      ],
+      {
+        ...dialogBoxRoom(roomLevel.getOffset()),
+        height: 150,
+      }
+    );
 
-    window.addEventListener('click', () => {
-      firstDialog.createBox(dialogBoxRoom(roomLevel.getOffset()));
-      firstDialog.display();
-      firstDialog.writeText();
-    });
+    quizz.start();
+    // window.addEventListener('click', () => {
+    //   // firstDialog.createBox(dialogBoxRoom(roomLevel.getOffset()));
+    //   // firstDialog.display();
+    //   // firstDialog.writeText();
+    // });
   } else {
     const engine = new Engine();
     const initScenario = new InitScenario(screen, engine);
