@@ -131,6 +131,13 @@ export const dialogBoxRoom = (offset: OffsetMap) => ({
   left: offset.left,
 });
 
+export const actionBoxRoom = (offset: OffsetMap) => ({
+  height: 50,
+  width: 549,
+  top: offset.top,
+  left: offset.left + 10,
+});
+
 const studioLevelConfigParams: box = {
   height: 385,
   width: 449,

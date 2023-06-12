@@ -4,6 +4,7 @@ import '../assets/sounds/rire_malefique.wav';
 import { Level, MapConfig } from '../level/level';
 import { Screen } from '../core/screen';
 import {
+  actionBoxRoom,
   charInitialRoomPoss,
   charInitialStudioPoss,
   dialogBoxRoom,
@@ -18,6 +19,7 @@ import { InteractionDialog } from '../interactions/interactionDialog';
 import { Interaction } from '../interactions/interaction';
 import { SoundPlayer } from '../core/soundPlayer';
 import { GgSalasDialog } from '../dialogs/ggSalasDialog';
+import { ActionBox } from '../dialogs/actionBox';
 
 const BLINK_CLASS = 'animate-image-blink';
 const BLUR_CLASS = 'animate-image-blur';
@@ -111,6 +113,17 @@ export class InitScenario {
     }, 3000);
   }
 
+  private displayCharacter() {
+    this.ggsalas.addClass(BLINK_CLASS);
+    this.ggsalas.display(
+      charInitialRoomPoss(this.roomLevel.getOffset()).colliderBox,
+      charInitialRoomPoss(this.roomLevel.getOffset()).offset
+    );
+    setTimeout(() => {
+      this.ggsalas.removeClass(BLINK_CLASS);
+    }, 500);
+  }
+
   private displayRoomLevel() {
     this.roomLevel.addClass(BLUR_CLASS);
     this.roomLevel.display();
@@ -126,19 +139,12 @@ export class InitScenario {
     firstDialog.writeText();
     firstDialog.onHide(() => {
       this.gameManager.init();
+      const action = new ActionBox('Aller devant le PC');
+      action.createBox(actionBoxRoom(this.roomLevel.getOffset()));
+      action.writeText();
+      action.display(3000);
       this.createFirstInteractionDialog();
     });
-  }
-
-  private displayCharacter() {
-    this.ggsalas.addClass(BLINK_CLASS);
-    this.ggsalas.display(
-      charInitialRoomPoss(this.roomLevel.getOffset()).colliderBox,
-      charInitialRoomPoss(this.roomLevel.getOffset()).offset
-    );
-    setTimeout(() => {
-      this.ggsalas.removeClass(BLINK_CLASS);
-    }, 500);
   }
 
   private createFirstInteractionDialog() {
