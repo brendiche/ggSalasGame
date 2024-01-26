@@ -1,11 +1,40 @@
-body{
-  background-color: #060b25;
+body {
+  background-color: #000;
   overflow: hidden;
   margin: 0;
+  cursor: none;
+}
+
+form {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  row-gap: 10px;
+}
+textarea {
+  height: 100%;
+}
+
+.label {
+  padding-right: 10px;
+  text-align: right;
+  font-family: ggSalasFont;
+}
+
+button {
+  font-family: ggSalasFont;
+  background-color: #0c2e85;
+  border: 2px solid white;
+  border-radius: px;
+  color: white;
+  padding: 8px 16px;
+  margin-top: 5px;
 }
 
 .img {
-  background: url('./main.JPG'); 
+  background: url('./main.JPG');
   height: 1028px;
   background-repeat: no-repeat;
   background-position: center;
@@ -21,6 +50,16 @@ body{
   animation: blinker 1s linear infinite;
 }
 
+.landing {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: url('./landing.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;
@@ -28,13 +67,96 @@ body{
 }
 
 @font-face {
-  font-family: "ggSalasFontBold";
-  src: url("./fonts/upheavtt.ttf") format("truetype"),
-  url("./fonts/upheavtt.woff") format('woff')
- }
+  font-family: 'ggSalasFontBold';
+  src: url('./fonts/upheavtt.ttf') format('truetype'),
+    url('./fonts/upheavtt.woff') format('woff');
+}
 
- @font-face {
-  font-family: "ggSalasFont";
-  src: url("./fonts/Retro\ Gaming.ttf") format("truetype"),
-  url("./fonts/Retro-Gaming.woff") format('woff')
- }
+@font-face {
+  font-family: 'ggSalasFont';
+  src: url('./fonts/Retro\ Gaming.ttf') format('truetype'),
+    url('./fonts/Retro-Gaming.woff') format('woff');
+}
+
+.animate-image-blur {
+  animation: image_blur 2s;
+}
+
+.animate-image-blink {
+  animation: image_blink_invisible 0.2s infinite;
+}
+
+.animate-image-gray {
+  animation: image_gray 2s;
+  filter: grayscale(1);
+}
+
+.animate-image-to-black {
+  animation: image_to_black 2s;
+  filter: brightness(0);
+}
+
+.animate-image-from-black {
+  animation: image_from_black 2s;
+  filter: brightness(1);
+}
+
+@keyframes image_blur {
+  0% {
+    -webkit-filter: blur(50px);
+  }
+  100% {
+    -webkit-filter: blur(0px);
+  }
+}
+
+@keyframes image_gray {
+  0% {
+    -webkit-filter: grayscale(0);
+  }
+  100% {
+    -webkit-filter: grayscale(1);
+  }
+}
+
+@keyframes image_from_black {
+  0% {
+    -webkit-filter: brightness(0);
+  }
+  100% {
+    -webkit-filter: brightness(1);
+  }
+}
+
+@keyframes image_to_black {
+  0% {
+    -webkit-filter: brightness(1);
+  }
+  100% {
+    -webkit-filter: brightness(0);
+  }
+}
+
+@keyframes image_blink_black {
+  0% {
+    -webkit-filter: brightness(1);
+  }
+  50% {
+    -webkit-filter: brightness(0);
+  }
+  100% {
+    -webkit-filter: brightness(1);
+  }
+}
+
+@keyframes image_blink_invisible {
+  0% {
+    -webkit-filter: opacity(1);
+  }
+  50% {
+    -webkit-filter: opacity(0);
+  }
+  100% {
+    -webkit-filter: opacity(1);
+  }
+}

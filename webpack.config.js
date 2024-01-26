@@ -23,6 +23,13 @@ module.exports = (env) => ({
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.(mp3|wav)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
     ],
   },
   resolve: {
@@ -32,6 +39,7 @@ module.exports = (env) => ({
   plugins: [
     new HtmlWebpackPlugin({
      title: 'The game project',
+     template: './src/assets/index.ejs'
     }),
   ],
 });
